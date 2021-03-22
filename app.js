@@ -1,9 +1,10 @@
 //javascript version:es6
 
 const express = require("express");
-// const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 const _ = require("lodash");
+dotenv.config();
 
 const app = express();
 app.set("view engine","ejs");
@@ -11,10 +12,8 @@ app.set("view engine","ejs");
 app.use(express.urlencoded({extended:true}));
 app.use(express.static("public"));
 
-// const items = ["Buy Food","Eat Chocolate","Drink Milk"]; //const doesnt make inner elements of the array - const array can't get declared to new array
-// const workItems = [];
-
-mongoose.connect("mongodb://localhost:27017/todoListDB",{useNewUrlParser: true, useUnifiedTopology: true});
+const dbUrl = process.env.DB_URL
+mongoose.connect(dbUrl,{useNewUrlParser:true,useUnifiedTopology: true});
 
 const itemsSchema = new mongoose.Schema({
     name : String
@@ -144,3 +143,4 @@ mongoose.set('useFindAndModify', false);
 app.listen(3050,function(){
     console.log("working on port 3050");
 });
+
